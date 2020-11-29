@@ -1,0 +1,37 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int v[102],w[102];
+int m[102][10002];
+
+int main()
+{
+    // 배낭문제
+    int N,W,i,j;
+    cin >> N >> W;
+
+    for(i=1;i<=N;i++){
+        cin >> w[i] >> v[i];
+    }
+
+    for(i=1;i<=N;i++){
+        for(j=0;j<=W;j++){
+            if(j<w[i]) m[i][j] = m[i-1][j];
+            else
+                m[i][j] = max(m[i-1][j],m[i-1][j-w[i]]+v[i]);
+        }
+    }
+    cout << endl;
+
+    for(i=1;i<=N;i++){
+        for(j=1;j<=W;j++){
+            cout << m[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    cout << m[N][W];
+    return 0;
+}
