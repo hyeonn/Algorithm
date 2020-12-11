@@ -1,0 +1,38 @@
+#include<vector>
+#include<queue>
+#include <utility>
+using namespace std;
+
+int dx[4]={1,0,-1,0}, dy[4]={0,1,0,-1};
+int h,w;
+bool safe(int a, int b){
+    return(0<=a&&a<h)&&(0<=b&&b<w);
+}
+
+int solution(vector<vector<int> > maps)
+{
+    h=maps.size(), w=maps[0].size();
+    pair<int, int> start(0,0), end(h-1,w-1);
+    queue<pair<int, int>> q;
+    q.push(start);
+    while(!q.empty()){
+        pair<int, int> cur = q.front();
+        q.pop();
+        if(cur==end)
+            break;
+        for(int i=0; i<4; i++){
+            int a = cur.first + dx[i], b = cur.second + dy[i];
+            if(safe(a,b) && maps[a][b]==1){
+                maps[a][b]=maps[cur.first][cur.second]+1;
+                q.push(make_pair(a,b));
+            }
+            else
+                continue;
+        }
+
+    }
+    int answer = maps[end.first][end.second];
+    if(answer == 1)
+        answer = -1;
+    return answer;
+}
